@@ -1,7 +1,8 @@
 <div class="container">
 	<%= @post.content %>
 	<p></p>
-	<%= @post.user.email %>
+	<%= @post.user.first_name %>
+	<%= @post.user.last_name %>
 
 	<p><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes'%></p>
 
@@ -10,5 +11,15 @@
   		<%= button_to 'Unlike', post_like_path(@post, pre_like), method: :delete %>
 	<% else %>
   		<%= button_to 'Like', post_likes_path(@post), method: :post %>
+	<% end %>
+
+
+	<p><%= render 'comments/form' %></p>
+
+	<% @post.comments.each do |comment| %>
+		<div class="container">
+			Comment by: <%= comment.user.first_name %>
+			<p><%= comment.content %></p>
+		</div>
 	<% end %>
 </div>

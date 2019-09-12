@@ -1,16 +1,16 @@
 class PostsController < ApplicationController
 
+	before_action :post_owner_check, only: [:edit, :update, :destroy]
+
 	def index
 		@post = Post.new
-		@posts = Post.all		
+		@posts = Post.all
+		@comment = Comment.new		
 	end
 
 	def show
 		set_post
-	end
-
-	def new
-		@post = Post.new
+		@comment = Comment.new
 	end
 
 	def create
@@ -51,5 +51,10 @@ class PostsController < ApplicationController
 	def post_params
 		params.require(:post).permit(:content)		
 	end
+
+	def post_owner_check
+	    @user = set_post.user
+	    redirect_to(root_url) unless @user == current_user
+  	end
 
 end
