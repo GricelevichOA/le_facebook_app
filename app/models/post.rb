@@ -5,4 +5,6 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
 
   validates :content, presence: true
+
+  scope :friends_posts, -> (current_user) { where('user_id IN (?) OR user_id = ?', current_user.friend_ids, current_user.id).order(:created_at) }
 end

@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
 	def index
 		@post = Post.new
-		@posts = Post.all
+		@posts = Post.friends_posts(current_user)
 		@comment = Comment.new		
 	end
 

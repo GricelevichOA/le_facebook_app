@@ -2,6 +2,15 @@
     <%= link_to "Edit profile", edit_profile_path(current_user.profile)%>
 <% end %>
 
+<% unless current_user == @profile.user %>
+    <% if current_user.requesters.where('requests.accepted = ?', 0).include?(@profile.user) %>
+      <%= link_to "Accept Friend Request", request_path(id: current_user.received_requests.find_by(requester_id: @profile.user.id).id, request: { requester_id: @profile.user.id }), method: :put %>
+    <% elsif current_user.requesters.include?(@profile.user) %>
+    <% elsif !current_user.requestees.include?(@profile.user) %>
+      <%= link_to "Add friend", requests_path(request: { requestee_id: @profile.user.id }), method: :post %>
+    <% end %>
+  <% end %>
+
 <div class="user-info-left">
   <p>
     <strong>Date of Birth:</strong>
