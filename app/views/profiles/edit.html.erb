@@ -1,0 +1,24 @@
+<h1>Placeholder for "Edit" page"</h1>
+
+<%= current_user.email %>
+
+ <%= form_for @profile do |f| %>
+
+      <div>
+        <%= f.label :birthday, "Birthday" %>
+        <%= f.date_field :birthday, autocomplete: "off" %>
+        <br/>
+
+        <%= f.label :location, "City" %>
+        <%= f.text_field :location %>
+        <br/>
+
+        <%= f.label :about_me, "About Me" %>
+        <%= f.text_area :about_me %>
+        <br/>
+      </div>
+
+        <%= f.submit "Save Your Profile" %>
+        <br/>
+
+  <% end %>

@@ -17,8 +17,9 @@
 	<p><%= render 'comments/form' %></p>
 
 	<% @post.comments.each do |comment| %>
+		<% user = User.find(comment.user_id) %>
 		<div class="container">
-			Comment by: <%= comment.user.first_name %>
+			Comment by: <%= link_to "#{user.first_name} #{user.last_name}", user.profile %>
 			<p><%= comment.content %></p>
 		</div>
 	<% end %>

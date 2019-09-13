@@ -3,17 +3,18 @@ class ProfilesController < ApplicationController
 
 	def show
 		@profile = Profile.find(params[:id])
-		@posts = @profile.user.posts		
+		@posts = @profile.user.posts
+		@comment = Comment.new		
 	end
 
 	def edit
-		@profile = current_user.set_profile
+		@profile = current_user.profile
 	end
 
 	def update
 		if set_profile.update_attributes(profile_params)
     		flash[:success] = "Your profile has been updated"
-      		redirect_to profile
+      		redirect_to set_profile
     	else
       		render 'edit'
     	end
