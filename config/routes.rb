@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 	root to: 'posts#index'
 
+	get 'users/index'
+
 	resources :posts do
 		resources :likes
 	end

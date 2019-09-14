@@ -13,7 +13,8 @@
     <nav class="navbar navbar-light bg-light">
       <a class="navbar-brand" href="/">Totally not facebook clone</a>
       <% if current_user %>
-        <%= link_to 'Friend requests', requests_path %>
+        <%= link_to 'All Users', users_index_path %>
+        <%= link_to "Friend Requests (#{current_user.received_requests.where(accepted: 0).count})", requests_path %>
         <%= link_to 'My Profile', current_user.profile %>
         <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
       <% else %>
