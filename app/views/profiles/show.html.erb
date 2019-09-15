@@ -1,70 +1,40 @@
-<% if @profile.user == current_user %>
-    <%= link_to "Edit profile", edit_profile_path(current_user.profile)%>
-<% end %>
-
-<% unless current_user == @profile.user %>
-    <% if current_user.requesters.where('requests.accepted = ?', 0).include?(@profile.user) %>
-      <%= link_to "Accept Friend Request", request_path(id: current_user.received_requests.find_by(requester_id: @profile.user.id).id, request: { requester_id: @profile.user.id }), method: :put %>
-    <% elsif current_user.requesters.include?(@profile.user) %>
-    <% elsif !current_user.requestees.include?(@profile.user) %>
-      <%= link_to "Add friend", requests_path(request: { requestee_id: @profile.user.id }), method: :post %>
-    <% end %>
-  <% end %>
-
-<div class="user-info-left">
-  <p>
-    <strong>Date of Birth:</strong>
-    <%= @profile.birthday %>
-    <br/>
-
-    <strong>City:</strong>
-    <%= @profile.location %>
-    <br/>
-
-    <strong>About Me:</strong>
-    <%= @profile.about_me %>
-  </p>
-</div>
-
 <div class="container">
-	<% @posts.each do |post| %>
-				<p><%= post.content %></p>			
-				<p>By: <%= post.user.first_name %>
-						<%= post.user.last_name %></p>
-				<p><%= post.likes.count %> <%= (post.likes.count) == 1 ? 'Like' : 'Likes'%></p>
-				<p><% pre_like = post.likes.find { |like| like.user_id == current_user.id} %>
-					<% if pre_like %>
-	  					<%= button_to 'Unlike', post_like_path(post, pre_like), method: :delete %>
-					<% else %>
-	  					<%= button_to 'Like', post_likes_path(post), method: :post %>
-					<% end %>
-				</p>
-				<p>
-					<%= link_to 'Show', post_path(post) %>
-					<% if current_user.id == post.user_id %>
-						<%= link_to 'Edit', edit_post_path(post) %>
-						<%= link_to 'Delete', post_path(post), method: :delete, data: { confirm: 'Are you sure?' } %>
-					<% end %>
+	<% if @profile.user == current_user %>
+	    <%= link_to "Edit profile", edit_profile_path(current_user.profile)%>
+	<% end %>
 
-					<% post.comments.each do |comment| %>
-						<div class="container">
-							Comment by: <%= comment.user.first_name %>
-							<p><%= comment.content %></p>
-						</div>
-					<% end %>
-					
-					<%= form_for(@comment) do |f| %>
-					  <div class="form-group">
-					    <%= f.label 'Leave comment' %><br>
-					    <%= f.text_area :content, class: 'form-control', autofocus: true, placeholder: 'Any commnets?' %>
-					    <%= f.hidden_field :post_id, value: post.id %>
-					  </div>
-					  <%= f.submit :comment, class: 'btn btn-primary'%>
-					<% end %>
-				</p> 
-				-----------------------------------------
-			<% end %>
+	<% unless current_user == @profile.user %>
+	    <% if current_user.requesters.where('requests.accepted = ?', 0).include?(@profile.user) %>
+	      <%= link_to "Accept Friend Request", request_path(id: current_user.received_requests.find_by(requester_id: @profile.user.id).id, request: { requester_id: @profile.user.id }), method: :put %>
+	    <% elsif current_user.requesters.include?(@profile.user) %>
+	    <% elsif !current_user.requestees.include?(@profile.user) %>
+	      <%= link_to "Add friend", requests_path(request: { requestee_id: @profile.user.id }), method: :post %>
+	    <% end %>
+	  <% end %>
+
+
+	<div class="row">
+		<div class="col-md-3">
+			<p>
+				<% if@profile.avatar.attached? %>
+					<image src="<%=(url_for(@profile.avatar))%>" height="100">
+				<% end %>
+				<br/>
+				<strong>Date of Birth:</strong>
+				<%= @profile.birthday %>
+				<br/>
+				<strong>City:</strong>
+				<%= @profile.location %>
+				<br/>
+				<strong>About Me:</strong>
+				<%= @profile.about_me %>
+			</p>
+		</div>
+		<div class="col-md-8">		
+			<p><%= render 'posts/post' %></p>
+		</div>  
+	</div>
+
 </div>
-
 
 

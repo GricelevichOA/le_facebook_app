@@ -1,22 +1,14 @@
-<div>
+<div class="container">
   <h1>Friend Requests</h1>
-
-  <div>
+  <% @users.each do |user| %>
     <div>
-      <% @users.each do |user| %>
-          <div>
-            <%= link_to(user.profile) do %>
-                <%= user.first_name %>
-                <%= user.last_name %>
-            <% end %>
-
-
-
-            <% if current_user.requesters.where('requests.accepted = ?', 0).include?(user) %>
-              <%= link_to "Confirm", request_path(id: current_user.received_requests.find_by(requester_id: user.id).id, request: { requester_id: user.id }), method: :put %>
-            <% end %>
-          </div>
+      <%= link_to(user.profile) do %>
+        <%= user.first_name %>
+        <%= user.last_name %>
+      <% end %>
+      <% if current_user.requesters.where('requests.accepted = ?', 0).include?(user) %>
+        <%= button_to "Confirm", request_path(id: current_user.received_requests.find_by(requester_id: user.id).id, request: { requester_id: user.id }), method: :put %>
       <% end %>
     </div>
-  </div>
+  <% end %>
 </div>

@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
 
 	def show
 		@profile = Profile.find(params[:id])
-		@posts = @profile.user.posts
+		@posts = @profile.user.posts.order("created_at DESC")
 		@comment = Comment.new		
 	end
 
@@ -26,6 +26,6 @@ class ProfilesController < ApplicationController
 	end
 
 	def profile_params
-		params.require(:profile).permit(:about_me, :location, :birthday)
+		params.require(:profile).permit(:about_me, :location, :birthday, :avatar)
 	end
 end

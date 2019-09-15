@@ -1,10 +1,15 @@
 <div class="container">
-	<%= @post.content %>
-	<p></p>
+	
 	<%= @post.user.first_name %>
 	<%= @post.user.last_name %>
 
-	<p><%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes'%></p>
+	<div>
+		<h1><%= @post.content %></h1>
+	</div>
+
+	
+
+	<%= @post.likes.count %> <%= (@post.likes.count) == 1 ? 'Like' : 'Likes'%>
 
 	<% pre_like = @post.likes.find { |like| like.user_id == current_user.id} %>
 	<% if pre_like %>
@@ -13,14 +18,16 @@
   		<%= button_to 'Like', post_likes_path(@post), method: :post %>
 	<% end %>
 
+	<div class="container">
+		<p><%= render 'comments/form' %></p>
 
-	<p><%= render 'comments/form' %></p>
-
-	<% @post.comments.each do |comment| %>
-		<% user = User.find(comment.user_id) %>
-		<div class="container">
-			Comment by: <%= link_to "#{user.first_name} #{user.last_name}", user.profile %>
-			<p><%= comment.content %></p>
-		</div>
-	<% end %>
+		<% @post.comments.each do |comment| %>
+			<% user = User.find(comment.user_id) %>
+			<div class="container">
+				Comment by: <%= link_to "#{user.first_name} #{user.last_name}", user.profile %>
+				<p><%= comment.content %></p>
+			</div>
+		<% end %>
+	</div>
+	
 </div>

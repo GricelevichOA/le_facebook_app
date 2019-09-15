@@ -6,5 +6,5 @@ class Post < ApplicationRecord
 
   validates :content, presence: true
 
-  scope :friends_posts, -> (current_user) { where('user_id IN (?) OR user_id = ?', current_user.friend_ids, current_user.id).order(:created_at) }
+  scope :friends_posts, -> (current_user) { where('user_id IN (?) OR user_id = ?', current_user.friend_ids, current_user.id).order("created_at DESC") }
 end
