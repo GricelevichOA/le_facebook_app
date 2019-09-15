@@ -16,9 +16,5 @@ users = User.create([
   { first_name: 'Wayne', last_name: 'JustWayne', email: 'ilikeyourhat@email.com', password: 'password' },
   { first_name: 'Torol', last_name: 'Sadeas', email: 'sadeas@email.com', password: 'password' }])
 
-users = User.all
-5.times do
-  users.each { |user| user.posts.create(content: Faker::Lorem.sentence(5)) }
-end
 
 
